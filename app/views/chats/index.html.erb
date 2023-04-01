@@ -1,0 +1,31 @@
+<p>app/views/chats/index.html.erb</p>
+<p><h1>Chat_卒業生です！何か困っていますか？</h1></p>
+<div id="chat-window">
+  <% @chats.each do |chat| %>
+    <div class="message">
+      <p><strong>User:</strong> <%= chat.body %></p>
+      <% if chat.answer.present? %>
+        <p><strong>Chat GPT:</strong> <%= chat.answer %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with(model: @chat, url: chats_path, method: :post) do |form| %>
+  <p>
+    <%= form.label :body, "Ask me anything:" %><br>
+    <%= form.text_field :body %>
+  </p>
+  <p>
+    <%= form.submit "Send" %>
+  </p>
+<% end %>
+
+<script>
+  setInterval(function() {
+    $.ajax({
+      url: '/chats',
+      dataType: 'script'
+    });
+  }, 5000);
+</script>
